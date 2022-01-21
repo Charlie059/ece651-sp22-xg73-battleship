@@ -33,7 +33,7 @@ public class BoardTextView {
    * @return the String that is the header line for the given board
    */
   public String makeHeader() {
-    StringBuilder ans = new StringBuilder(" ");
+    StringBuilder ans = new StringBuilder("  ");
     for (int i = 0; i < toDisplay.getWidth(); i++) {
       ans.append(i);
       if (i != toDisplay.getWidth() - 1) {
@@ -45,16 +45,31 @@ public class BoardTextView {
   }
 
 
-  public String makeRows(){
+    /**
+   * This makes the rows e.g. A  | | | |  A\n
+   * 
+   * @return the String that is the rows (except header) for the given board
+   */
+  public String makeRows() {
     StringBuilder ans = new StringBuilder("");
-    for(int i = 0; i < toDisplay.getHeight(); i++){
-      
+    for (int i = 0; i < toDisplay.getHeight(); i++) {
+      ans.append((char)('A' + i) + " ");
+      for (int j = 0; j < toDisplay.getWidth(); j++) {
+        if (j != toDisplay.getWidth() - 1) {
+          ans.append(" |");
+        }
+      }
+      ans.append("  " + (char)('A' + i) + "\n");
     }
+    System.out.print(ans);
+    return ans.toString();
   }
+
   public String displayMyOwnBoard() {
     StringBuilder ans = new StringBuilder("");
     ans.append(makeHeader());
-    
-    return "";
+    ans.append(makeRows());
+    ans.append(makeHeader());
+    return ans.toString();
   }
 }
