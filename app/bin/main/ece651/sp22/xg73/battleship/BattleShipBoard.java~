@@ -1,0 +1,25 @@
+package ece651.sp22.xg73.battleship;
+
+public class BattleShipBoard implements Board{
+  private final int width;
+  private final int height;
+
+  public BattleShipBoard(int width, int height){
+    if(width <= 0){
+      throw new IllegalArgumentException("BattleShipBoard's width must be positive but is " + width);
+    }
+    if(height <= 0){
+      throw new IllegalArgumentException("BattleShipBoard's height must be positive but is " + height);
+    }
+    this.width = width;
+    this.height = height;
+  }
+  
+  public int getWidth(){
+    return this.width;
+  }
+
+  public int getHeight(){
+    return this.height;
+  }
+}
