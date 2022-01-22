@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class BoardTextViewTest {
   @Test
   public void test_display_empty_2by2() {
-    Board b1 = new BattleShipBoard(2, 2);
+    Board<Character> b1 = new BattleShipBoard<Character>(2, 2,null);
     BoardTextView view = new BoardTextView(b1);
     String expectedHeader = "  0|1\n";
     assertEquals(expectedHeader, view.makeHeader());
@@ -19,7 +19,7 @@ public class BoardTextViewTest {
 
   @Test
   public void test_display_empty_10by20() {
-    Board b1 = new BattleShipBoard(10, 20);
+    Board<Character> b1 = new BattleShipBoard<Character>(10, 20,null);
     BoardTextView view = new BoardTextView(b1);
     String expectedHeader = "  0|1|2|3|4|5|6|7|8|9\n";
     assertEquals(expectedHeader, view.makeHeader());
@@ -33,7 +33,7 @@ public class BoardTextViewTest {
   
   @Test
   public void test_display_empty_3by2() {
-    Board b1 = new BattleShipBoard(3, 2);
+    Board<Character> b1 = new BattleShipBoard<Character>(3, 2, null);
     BoardTextView view = new BoardTextView(b1);
     String expectedHeader = "  0|1|2\n";
     assertEquals(expectedHeader, view.makeHeader());
@@ -47,7 +47,7 @@ public class BoardTextViewTest {
   
   @Test
   public void test_display_empty_3by5() {
-    Board b1 = new BattleShipBoard(3, 5);
+    Board<Character> b1 = new BattleShipBoard<Character>(3, 5, null);
     BoardTextView view = new BoardTextView(b1);
     String expectedHeader = "  0|1|2\n";
     assertEquals(expectedHeader, view.makeHeader());
@@ -61,8 +61,8 @@ public class BoardTextViewTest {
   
   @Test
   public void test_invaild_board_size() {
-    Board wideBoard = new BattleShipBoard(11, 20);
-    Board tallBoard = new BattleShipBoard(10, 27);
+    Board<Character> wideBoard = new BattleShipBoard<Character>(11, 20,null);
+    Board<Character> tallBoard = new BattleShipBoard<Character>(10, 27,null);
 
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(wideBoard));
     assertThrows(IllegalArgumentException.class, () -> new BoardTextView(tallBoard));

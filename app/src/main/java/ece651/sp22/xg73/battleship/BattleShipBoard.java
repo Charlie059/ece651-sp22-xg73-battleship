@@ -1,5 +1,7 @@
 package ece651.sp22.xg73.battleship;
 
+import java.util.ArrayList;
+
 /**
  * BattleShipBoard Class which implement interface Board
  * 
@@ -7,9 +9,10 @@ package ece651.sp22.xg73.battleship;
  * @version 1.0
  * @since 1.0
  */
-public class BattleShipBoard implements Board {
+public class BattleShipBoard<T> implements Board<T> {
   private final int width;
   private final int height;
+  private final ArrayList<Ship<T>> myShips;
 
   /**
    * Constructs a BattleShipBoard with the specified width and height
@@ -19,7 +22,7 @@ public class BattleShipBoard implements Board {
    * @throws IllegalArgumentException if the width or height are less than or
    *                                  equal to zero.
    */
-  public BattleShipBoard(int width, int height) {
+  public BattleShipBoard(int width, int height, ArrayList<Ship<T>> myShips) {
     if (width <= 0) {
       throw new IllegalArgumentException("BattleShipBoard's width must be positive but is " + width);
     }
@@ -28,6 +31,7 @@ public class BattleShipBoard implements Board {
     }
     this.width = width;
     this.height = height;
+    this.myShips = myShips;
   }
 
   /**
@@ -46,5 +50,32 @@ public class BattleShipBoard implements Board {
    */
   public int getHeight() {
     return this.height;
+  }
+
+  /**
+   * Add Ships into the BattleShipBoard
+   * 
+   * @return Return true if we add the Ship seccess, else return false
+   */
+  public boolean tryAddShip(Ship<T> toAdd) {
+    // TODO return false
+    this.myShips.add(toAdd);
+    return true;
+  }
+
+
+   /**
+   * This method takes a Coordinate, and sees which (if any) Ship
+occupies that coordinate.
+   * 
+   * @return  If one is found, we return whatever displayInfo it has at those coordinates. If none is found, we return null.
+   */
+  public T whatIsAt(Coordinate where) {
+    for (Ship<T> s : myShips) {
+      if (s.occupiesCoordinates(where)) {
+        return s.getDisplayInfoAt(where);
+      }
+    }
+    return null;
   }
 }
