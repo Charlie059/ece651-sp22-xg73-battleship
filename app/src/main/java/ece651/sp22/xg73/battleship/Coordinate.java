@@ -39,10 +39,12 @@ public class Coordinate {
     char colLetter = descr_.charAt(1);
 
     // Check the row letter
-    if (rowLetter < 'A' || rowLetter > 'Z')  throw new IllegalArgumentException("Coordinate's row must be a letter but is " + descr.charAt(0));
+    if (rowLetter < 'A' || rowLetter > 'Z')
+      throw new IllegalArgumentException("Coordinate's row must be a letter but is " + descr.charAt(0));
 
     // Check the column letter
-    if (!Character.isDigit(colLetter)) throw new IllegalArgumentException("Coordinate's column must be a number but is " + descr.charAt(1));
+    if (!Character.isDigit(colLetter))
+      throw new IllegalArgumentException("Coordinate's column must be a number but is " + descr.charAt(1));
 
     // Init the value
     this.row = rowLetter - 'A';

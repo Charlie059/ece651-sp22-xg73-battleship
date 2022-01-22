@@ -30,16 +30,20 @@ public class BattleShipBoard implements Board {
     this.height = height;
   }
 
- /** Gets the battleship board’s width.
- * @return A int repersenting board’s width.
- */
+  /**
+   * Gets the battleship board’s width.
+   * 
+   * @return A int repersenting board’s width.
+   */
   public int getWidth() {
     return this.width;
   }
 
- /** Gets the battleship board’s height.
- * @return A int repersenting board’s height.
- */
+  /**
+   * Gets the battleship board’s height.
+   * 
+   * @return A int repersenting board’s height.
+   */
   public int getHeight() {
     return this.height;
   }
