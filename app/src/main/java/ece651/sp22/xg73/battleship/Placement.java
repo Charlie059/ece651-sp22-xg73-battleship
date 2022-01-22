@@ -1,14 +1,38 @@
 package ece651.sp22.xg73.battleship;
 
+/**
+ * Placement Class
+ * 
+ * @author Xuhui Gong
+ * @version 1.0
+ * @since 1.0
+ */
 public class Placement {
   final Coordinate where;
   final char orientation;
+
+  /**
+   * Constructs a placement with coordinate and orientation
+   * 
+   * @param A Coordinate type of where info
+   * @param A char indicate the orientation. eg: H or V
+   * @throws Throw if Coordinate is invaild or orinentation is not H or V
+   */
 
   public Placement(Coordinate where, char orientation) {
     this.where = where;
     String orientationStr_ = checkOrientation(String.valueOf(orientation));
     this.orientation = orientationStr_.charAt(0);
   }
+
+  /**
+   * Constructs a placement with String. eg: a2H
+   * 
+   * @param A String with first two char defined type of where info and A char
+   *          indicate the orientation. eg: H or V
+   * @throws Throw if Coordinate is invaild or orinentation is not H or V
+   * 
+   */
 
   public Placement(String str) {
     if (str.length() != 3)
@@ -26,6 +50,11 @@ public class Placement {
     this.orientation = orientationStr_.charAt(0);
   }
 
+  /**
+   * Check the orinentation is either H or V.
+   * 
+   * @return A uppercase string if pass the test.
+   */
   private String checkOrientation(String orientationStr) {
     // Let the orientation to upper case
     String orientationStr_ = orientationStr.toUpperCase();
@@ -38,9 +67,21 @@ public class Placement {
     return orientationStr_;
   }
 
+  /**
+   * Gets the coordinate object.
+   * 
+   * @return A coordinate object.
+   */
+
   Coordinate getCoordinate() {
     return this.where;
   }
+
+  /**
+   * Gets the orientation char.
+   * 
+   * @return A char indicate the orientation.
+   */
 
   char getOrientation() {
     return this.orientation;
