@@ -44,8 +44,7 @@ public class BoardTextView {
     return ans.toString();
   }
 
-
-    /**
+  /**
    * This makes the rows e.g. A  | | | |  A\n
    * 
    * @return the String that is the rows (except header) for the given board
@@ -61,10 +60,15 @@ public class BoardTextView {
       }
       ans.append("  " + (char)('A' + i) + "\n");
     }
-    System.out.print(ans);
     return ans.toString();
   }
 
+
+  /**
+   * This display the empty board
+   * 
+   * @return the String that display the empty board with head and rows
+   */
   public String displayMyOwnBoard() {
     StringBuilder ans = new StringBuilder("");
     ans.append(makeHeader());
