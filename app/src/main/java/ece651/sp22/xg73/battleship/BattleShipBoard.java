@@ -63,12 +63,12 @@ public class BattleShipBoard<T> implements Board<T> {
     return true;
   }
 
-
-   /**
-   * This method takes a Coordinate, and sees which (if any) Ship
-occupies that coordinate.
+  /**
+   * This method takes a Coordinate, and sees which (if any) Ship occupies that
+   * coordinate.
    * 
-   * @return  If one is found, we return whatever displayInfo it has at those coordinates. If none is found, we return null.
+   * @return If one is found, we return whatever displayInfo it has at those
+   *         coordinates. If none is found, we return null.
    */
   public T whatIsAt(Coordinate where) {
     for (Ship<T> s : myShips) {

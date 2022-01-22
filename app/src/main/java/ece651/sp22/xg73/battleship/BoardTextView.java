@@ -54,15 +54,19 @@ public class BoardTextView {
     for (int i = 0; i < toDisplay.getHeight(); i++) {
       ans.append((char)('A' + i) + " ");
       for (int j = 0; j < toDisplay.getWidth(); j++) {
+         Coordinate c = new Coordinate(i,j);
         if (j != toDisplay.getWidth() - 1) {
-          ans.append(" |");
+          ans.append(this.toDisplay.whatIsAt(c) != null ?this.toDisplay.whatIsAt(c):" ");
+          ans.append("|");
+        }
+        else{
+          ans.append(this.toDisplay.whatIsAt(c) != null ? this.toDisplay.whatIsAt(c):" ");
+          ans.append(" " + (char)('A' + i) + "\n");
         }
       }
-      ans.append("  " + (char)('A' + i) + "\n");
     }
     return ans.toString();
   }
-
 
   /**
    * This display the empty board
