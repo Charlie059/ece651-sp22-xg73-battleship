@@ -9,26 +9,23 @@ import org.junit.jupiter.api.Test;
 public class BattleShipBoardTest {
   @Test
   public void test_width_and_height() {
-    ArrayList<Ship<Character>> ships = new ArrayList<>();
-    Board<Character> b1 = new BattleShipBoard<Character>(10, 20, ships);
+    Board<Character> b1 = new BattleShipBoard<Character>(10, 20);
     assertEquals(10, b1.getWidth());
     assertEquals(20, b1.getHeight());
   }
 
   @Test
   public void test_invaild_dimensions() {
-    ArrayList<Ship<Character>> ships = new ArrayList<>();
-    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(10, 0, ships));
-    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(0, 20, ships));
-    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(10, -5, ships));
-    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(-10, 5, ships));
-    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(-10, 0, ships));
+    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(10, 0));
+    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(0, 20));
+    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(10, -5));
+    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(-10, 5));
+    assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(-10, 0));
   }
 
   @Test
   public void test_add_ships() {
-    ArrayList<Ship<Character>> ships = new ArrayList<>();
-    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(4, 3, ships);
+    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(4, 3);
     Character expect[][] = new Character[4][3];
     checkWhatIsAtBoard(b1, expect);
 

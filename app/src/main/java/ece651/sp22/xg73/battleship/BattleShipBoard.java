@@ -22,7 +22,7 @@ public class BattleShipBoard<T> implements Board<T> {
    * @throws IllegalArgumentException if the width or height are less than or
    *                                  equal to zero.
    */
-  public BattleShipBoard(int width, int height, ArrayList<Ship<T>> myShips) {
+  public BattleShipBoard(int width, int height) {
     if (width <= 0) {
       throw new IllegalArgumentException("BattleShipBoard's width must be positive but is " + width);
     }
@@ -31,7 +31,7 @@ public class BattleShipBoard<T> implements Board<T> {
     }
     this.width = width;
     this.height = height;
-    this.myShips = myShips;
+    this.myShips = new ArrayList<Ship<T>>();
   }
 
   /**
