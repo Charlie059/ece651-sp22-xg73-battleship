@@ -5,6 +5,7 @@ package ece651.sp22.xg73.battleship;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.Reader;
 
@@ -32,10 +33,12 @@ public class App {
     //TODO orienation
     BasicShip ship = new BasicShip(p.getCoordinate());
     this.theBoard.tryAddShip(ship);
-    this.out.println(view.displayMyOwnBoard());
+    this.out.print(view.displayMyOwnBoard());
   }
   
-  public static void main(String[] args) {
-    // System.out.println("");
+  public static void main(String[] args) throws IOException{
+    Board<Character> b = new BattleShipBoard<>(10, 20);
+    App app = new App(b, new InputStreamReader(System.in), System.out);
+    app.doOnePlacement();
   }
 }
