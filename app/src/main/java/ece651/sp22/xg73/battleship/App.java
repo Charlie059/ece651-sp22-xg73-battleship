@@ -31,8 +31,9 @@ public class App {
   public void doOnePlacement() throws IOException{
     Placement p = this.readPlacement("Where would you like to put your ship?");
     //TODO orienation
-    BasicShip ship = new BasicShip(p.getCoordinate());
-    this.theBoard.tryAddShip(ship);
+    // BasicShip ship = new BasicShip(p.getCoordinate());
+    RectangleShip<Character> s = new RectangleShip<Character>(p.getCoordinate(), 's', '*');
+    this.theBoard.tryAddShip(s);
     this.out.print(view.displayMyOwnBoard());
   }
   

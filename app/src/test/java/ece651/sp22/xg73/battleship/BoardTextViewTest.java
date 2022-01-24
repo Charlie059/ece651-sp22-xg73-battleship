@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.css.Rect;
 
 public class BoardTextViewTest {
   @Test
@@ -69,8 +70,8 @@ public class BoardTextViewTest {
     Coordinate c1 = new Coordinate("c1");
     Coordinate c2 = new Coordinate("e2");
 
-    Ship<Character> s1 = new BasicShip(c1);
-    Ship<Character> s2 = new BasicShip(c2);
+    RectangleShip<Character> s1 = new RectangleShip<Character>(c1, 's', '*');
+    RectangleShip<Character> s2 = new RectangleShip<Character>(c2, 's', '*');
     b1.tryAddShip(s1);
     b1.tryAddShip(s2);
     BoardTextView view = new BoardTextView(b1);
