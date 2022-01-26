@@ -30,8 +30,8 @@ public abstract class BasicShip<T> implements Ship<T> {
 
   @Override
   public boolean isSunk() {
-    for(Coordinate c: myPieces.keySet()){
-      if(myPieces.get(c) == false){
+    for (Coordinate c : myPieces.keySet()) {
+      if (myPieces.get(c) == false) {
         return false;
       }
     }
@@ -72,7 +72,6 @@ public abstract class BasicShip<T> implements Ship<T> {
     return false;
   }
 
-  
   @Override
   public T getDisplayInfoAt(Coordinate where) {
     // look up the hit status of this coordinate

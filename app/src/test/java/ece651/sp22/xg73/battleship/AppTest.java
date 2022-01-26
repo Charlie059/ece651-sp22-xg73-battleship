@@ -55,8 +55,8 @@ class AppTest {
     Board<Character> b = new BattleShipBoard<Character>(3, 4);
     App app = new App(b, sr, ps);
     app.doOnePlacement();
-    String expected = "Where would you like to put your ship?\n" + "  0|1|2\n" + "A  | |  A\n" + "B  | |s B\n"
-        + "C  | |  C\n" + "D  | |  D\n" + "  0|1|2\n";
+    String expected = "Where would you like to put your ship?\n" + "  0|1|2\n" + "A  | |  A\n" + "B  | |d B\n"
+        + "C  | |d C\n" + "D  | |d D\n" + "  0|1|2\n";
     assertEquals(expected, bytes.toString()); // should have printed prompt and newline
 
   }

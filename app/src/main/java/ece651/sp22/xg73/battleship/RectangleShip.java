@@ -2,18 +2,31 @@ package ece651.sp22.xg73.battleship;
 
 import java.util.HashSet;
 
-public class RectangleShip<T> extends BasicShip<T>{
+public class RectangleShip<T> extends BasicShip<T> {
 
-  public RectangleShip(Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> s) {
-    super(makeCoords(upperLeft, width, height),s);
+  final String name;
+
+  /**
+   * Get the ship name
+   * 
+   */
+  public String getName() {
+    return name;
   }
 
-   public RectangleShip(Coordinate upperLeft, int width, int height, T data, T onHit) {
-    this(upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
+  public RectangleShip(String name, Coordinate upperLeft, int width, int height, ShipDisplayInfo<T> myDisplayInfo) {
+    super(makeCoords(upperLeft, width, height), myDisplayInfo);
+    this.name = name;
   }
+
+  public RectangleShip(String name, Coordinate upperLeft, int width, int height, T data, T onHit) {
+    this(name, upperLeft, width, height, new SimpleShipDisplayInfo<T>(data, onHit));
+  }
+
   public RectangleShip(Coordinate upperLeft, T data, T onHit) {
-    this(upperLeft, 1, 1, data, onHit);
+    this("testship", upperLeft, 1, 1, data, onHit);
   }
+
   /**
    * Static method to add the coordinate into the hashset
    * 

@@ -14,7 +14,7 @@ public class RectangleShipTest {
   public void test_make_object() {
     Coordinate c1 = new Coordinate(2, 3);
     Coordinate c2 = new Coordinate(2, 4);
-    RectangleShip<Character> rect = new RectangleShip<Character>(c1, 2, 1,
+    RectangleShip<Character> rect = new RectangleShip<Character>("destroyer", c1, 2, 1,
         new SimpleShipDisplayInfo<Character>('s', '*'));
 
     HashMap<Coordinate, Boolean> res = rect.myPieces;
@@ -50,7 +50,7 @@ public class RectangleShipTest {
   public void test_checkCoordinateInThisShip() {
     Coordinate c1 = new Coordinate(2, 3);
     Coordinate c2 = new Coordinate(2, 5);
-    RectangleShip<Character> rect = new RectangleShip<Character>(c1, 2, 1,
+    RectangleShip<Character> rect = new RectangleShip<Character>("destroyer", c1, 2, 1,
         new SimpleShipDisplayInfo<Character>('s', '*'));
     assertThrows(IllegalArgumentException.class, () -> rect.checkCoordinateInThisShip(c2));
   }
@@ -59,7 +59,7 @@ public class RectangleShipTest {
   public void test_record_hit() {
     Coordinate c1 = new Coordinate(2, 3);
     Coordinate c2 = new Coordinate(2, 4);
-    RectangleShip<Character> rect = new RectangleShip<Character>(c1, 2, 1,
+    RectangleShip<Character> rect = new RectangleShip<Character>("destroyer", c1, 2, 1,
         new SimpleShipDisplayInfo<Character>('s', '*'));
     rect.recordHitAt(c2);
     assertEquals(rect.wasHitAt(c2), true);
@@ -73,7 +73,7 @@ public class RectangleShipTest {
   public void test_is_sunk() {
     Coordinate c1 = new Coordinate(2, 3);
     Coordinate c2 = new Coordinate(2, 4);
-    RectangleShip<Character> rect = new RectangleShip<Character>(c1, 2, 1,
+    RectangleShip<Character> rect = new RectangleShip<Character>("destroyer", c1, 2, 1,
         new SimpleShipDisplayInfo<Character>('s', '*'));
     rect.recordHitAt(c1);
     rect.recordHitAt(c2);
@@ -84,7 +84,7 @@ public class RectangleShipTest {
   public void test_is_not_sunk() {
     Coordinate c1 = new Coordinate(2, 3);
     Coordinate c2 = new Coordinate(2, 4);
-    RectangleShip<Character> rect = new RectangleShip<Character>(c1, 2, 1,
+    RectangleShip<Character> rect = new RectangleShip<Character>("destroyer", c1, 2, 1,
         new SimpleShipDisplayInfo<Character>('s', '*'));
     rect.recordHitAt(c1);
     assertEquals(rect.isSunk(), false);
@@ -94,11 +94,19 @@ public class RectangleShipTest {
   public void test_get_display_info() {
     Coordinate c1 = new Coordinate(2, 3);
     Coordinate c2 = new Coordinate(2, 4);
-    RectangleShip<Character> rect = new RectangleShip<Character>(c1, 2, 1,
+    RectangleShip<Character> rect = new RectangleShip<Character>("destroyer", c1, 2, 1,
         new SimpleShipDisplayInfo<Character>('s', '*'));
 
     assertEquals('s', rect.getDisplayInfoAt(c2));
     rect.recordHitAt(c2);
     assertEquals('*', rect.getDisplayInfoAt(c2));
+  }
+
+  @Test
+  public void test_get_name() {
+    Coordinate c1 = new Coordinate(2, 3);
+    RectangleShip<Character> rect = new RectangleShip<Character>("destroyer", c1, 2, 1,
+        new SimpleShipDisplayInfo<Character>('s', '*'));
+    assertEquals("destroyer", rect.getName());
   }
 }
