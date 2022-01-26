@@ -25,33 +25,71 @@ public abstract class BasicShip<T> implements Ship<T> {
 
   @Override
   public boolean occupiesCoordinates(Coordinate where) {
-    // TODO Auto-generated method stub
     return this.myPieces.containsKey(where);
   }
 
   @Override
   public boolean isSunk() {
-    // TODO Auto-generated method stub
-    return false;
+    for(Coordinate c: myPieces.keySet()){
+      if(myPieces.get(c) == false){
+        return false;
+      }
+    }
+    return true;
   }
 
+  /**
+   * Record the hit if the coordinate is vaild
+   * 
+   * @param Coordinate where
+   */
   @Override
   public void recordHitAt(Coordinate where) {
-    // TODO Auto-generated method stub
+    // Check the coordinate is vaild first
+    checkCoordinateInThisShip(where);
+
+    // Check the status of the current coordiante
+    if (this.myPieces.get(where) == false) {
+      this.myPieces.replace(where, true);
+    }
 
   }
 
+  /**
+   * Check if this coordinate is hit
+   * 
+   * @param Coordinate where'
+   * @return Return if this coordinate is hit
+   */
   @Override
   public boolean wasHitAt(Coordinate where) {
-    // TODO Auto-generated method stub
+    // Check the coordinate is vaild first
+    checkCoordinateInThisShip(where);
+
+    if (this.myPieces.get(where) == true) {
+      return true;
+    }
     return false;
   }
 
+  
   @Override
   public T getDisplayInfoAt(Coordinate where) {
-    // TODO this is not right. We need to
     // look up the hit status of this coordinate
-    return myDisplayInfo.getInfo(where, false);
+    return myDisplayInfo.getInfo(where, wasHitAt(where));
+  }
+
+  /**
+   * Check if the coordinate is vaild or is not in this ship.
+   * 
+   * @param Coordinate c
+   * @exception if c is not in this ship, throw an IllegalArgumentException.
+   */
+  protected void checkCoordinateInThisShip(Coordinate c) throws IllegalArgumentException {
+    if (this.myPieces.get(c) == null) {
+      throw new IllegalArgumentException(
+          "The Coordinate must in this ship, but this coordinate: Col: " + c.getColumn() + " Row: " + c.getRow());
+    }
   }
 
 }
