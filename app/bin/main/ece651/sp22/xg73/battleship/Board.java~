@@ -1,0 +1,6 @@
+package ece651.sp22.xg73.battleship;
+
+public interface Board {
+  public int getWidth();
+  public int getHeight();
+}

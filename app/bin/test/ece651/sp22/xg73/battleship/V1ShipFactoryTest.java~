@@ -1,0 +1,20 @@
+package ece651.sp22.xg73.battleship;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+public class V1ShipFactoryTest {
+  @Test
+  public void test_ship() {
+    Placement v1_2 = new Placement(new Coordinate(1, 2), 'V');
+    V1ShipFactory f = new V1ShipFactory();
+    Ship<Character> dst = f.makeDestroyer(v1_2);
+    checkShip(dst, "Destroyer", 'd', new Coordinate(1, 2), new Coordinate(2, 2), new Coordinate(3, 2));
+  }
+
+  private void checkShip(Ship<Character> testShip, String expectedName, char expectedLetter,
+      Coordinate... expectedLocs) {
+
+  }
+}
