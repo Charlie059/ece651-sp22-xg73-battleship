@@ -13,6 +13,9 @@ public class BattleShipBoard<T> implements Board<T> {
   private final int width;
   private final int height;
   private final ArrayList<Ship<T>> myShips;
+  private final PlacementRuleChecker<T> placementChecker;
+
+
 
   /**
    * Constructs a BattleShipBoard with the specified width and height
@@ -32,6 +35,7 @@ public class BattleShipBoard<T> implements Board<T> {
     this.width = width;
     this.height = height;
     this.myShips = new ArrayList<Ship<T>>();
+    this.placementChecker = new InBoundsRuleChecker<>(null);
   }
 
   /**

@@ -6,6 +6,14 @@ package ece651.sp22.xg73.battleship;
  * display this ship.
  */
 public interface Ship<T> {
+
+  /**
+   * Get all of the Coordinates that this Ship occupies.
+   * 
+   * @return An Iterable with the coordinates that this Ship occupies
+   */
+  public Iterable<Coordinate> getCoordinates();
+
   /**
    * Check if this ship occupies the given coordinate.
    * 

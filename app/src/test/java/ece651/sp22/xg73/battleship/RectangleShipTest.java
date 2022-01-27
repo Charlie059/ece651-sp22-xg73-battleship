@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
-import org.checkerframework.dataflow.qual.TerminatesExecution;
 import org.junit.jupiter.api.Test;
 
 public class RectangleShipTest {
@@ -53,6 +53,20 @@ public class RectangleShipTest {
     RectangleShip<Character> rect = new RectangleShip<Character>("destroyer", c1, 2, 1,
         new SimpleShipDisplayInfo<Character>('s', '*'));
     assertThrows(IllegalArgumentException.class, () -> rect.checkCoordinateInThisShip(c2));
+  }
+
+  @Test
+  public void test_get_coordinates() {
+    Coordinate c1 = new Coordinate("c1");
+    Coordinate c2 = new Coordinate("c1");
+    Coordinate c3 = new Coordinate("c2");
+
+    RectangleShip<Character> rect = new RectangleShip<Character>("destroyer", c1, 2, 1,
+        new SimpleShipDisplayInfo<Character>('s', '*'));
+    Set<Coordinate> excpted = new HashSet<Coordinate>();
+    excpted.add(c2);
+    excpted.add(c3);
+    assertEquals(rect.getCoordinates(), excpted);
   }
 
   @Test

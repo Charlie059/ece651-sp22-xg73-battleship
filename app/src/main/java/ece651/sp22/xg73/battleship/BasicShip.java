@@ -23,6 +23,16 @@ public abstract class BasicShip<T> implements Ship<T> {
     this.myDisplayInfo = myDisplayInfo;
   }
 
+  /**
+   * Get all of the Coordinates that this Ship occupies.
+   * 
+   * @return An Iterable with the coordinates that this Ship occupies
+   */
+  @Override
+  public Iterable<Coordinate> getCoordinates() {
+    return this.myPieces.keySet();
+  }
+
   @Override
   public boolean occupiesCoordinates(Coordinate where) {
     return this.myPieces.containsKey(where);
