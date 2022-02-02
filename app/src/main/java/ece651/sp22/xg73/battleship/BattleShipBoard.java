@@ -33,7 +33,7 @@ public class BattleShipBoard<T> implements Board<T> {
     this.width = width;
     this.height = height;
     this.myShips = new ArrayList<Ship<T>>();
-    this.placementChecker = new NoCollisionRuleChecker<T>(new InBoundsRuleChecker<T>(null));
+    this.placementChecker =  new InBoundsRuleChecker<T>(new NoCollisionRuleChecker<T>(null));
   }
 
   /**

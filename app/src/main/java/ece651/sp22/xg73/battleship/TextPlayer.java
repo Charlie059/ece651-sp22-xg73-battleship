@@ -2,9 +2,11 @@ package ece651.sp22.xg73.battleship;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.function.Function;
 
 public class TextPlayer {
   final String name;
@@ -13,6 +15,35 @@ public class TextPlayer {
   final BufferedReader inputReader;
   final PrintStream out;
   final AbstractShipFactory<Character> shipFactory;
+  final ArrayList<String> shipsToPlace;
+  final HashMap<String, Function<Placement, Ship<Character>>> shipCreationFns;
+
+  public TextPlayer(String name, Board<Character> theBoard, BufferedReader br, PrintStream out, V1ShipFactory factory) {
+    this.theBoard = theBoard;
+    this.view = new BoardTextView(theBoard);
+    this.inputReader = br;
+    this.out = out;
+    this.shipFactory = factory;
+    this.name = name;
+    this.shipsToPlace = new ArrayList<String>();
+    this.shipCreationFns = new HashMap<String, Function<Placement, Ship<Character>>>();
+    setupShipCreationList();
+    setupShipCreationMap();
+  }
+
+  protected void setupShipCreationMap() {
+    shipCreationFns.put("Submarine", (p) -> shipFactory.makeSubmarine(p));
+    shipCreationFns.put("Carrier", (p) -> shipFactory.makeCarrier(p));
+    shipCreationFns.put("Destroyer", (p) -> shipFactory.makeDestroyer(p));
+    shipCreationFns.put("BattleShip", (p) -> shipFactory.makeBattleship(p));
+  }
+
+  protected void setupShipCreationList() {
+    shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
+    shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
+    shipsToPlace.addAll(Collections.nCopies(3, "BattleShip"));
+    shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
+  }
 
   public Placement readPlacement(String prompt) throws IOException {
     this.out.println(prompt);
@@ -30,24 +61,17 @@ public class TextPlayer {
         "2 \"Submarines\" ships that are 1x2\n" + "3 \"Destroyers\" that are 1x3\n" + "3 \"Battleships\" that are 1x4\n"
         + "2 \"Carriers\" that are 1x6\n";
     this.out.print(view.displayMyOwnBoard() + instrcution);
-    this.doOnePlacement();
+    for (String s : shipsToPlace) {
+      doOnePlacement(s, shipCreationFns.get(s));
+    }
 
   }
 
-  public void doOnePlacement() throws IOException {
-    Placement p = this.readPlacement("Player " + this.name + " where do you want to place a Destroyer?");
-    Ship<Character> s = shipFactory.makeDestroyer(p);
-    this.theBoard.tryAddShip(s);
-    this.out.print(view.displayMyOwnBoard());
-  }
-
-  public TextPlayer(String name, Board<Character> theBoard, BufferedReader br, PrintStream out, V1ShipFactory factory) {
-    this.theBoard = theBoard;
-    this.view = new BoardTextView(theBoard);
-    this.inputReader = br;
-    this.out = out;
-    this.shipFactory = factory;
-    this.name = name;
+  public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
+    Placement p = readPlacement("Player " + name + " where do you want to place a " + shipName + "?");
+    Ship<Character> s = createFn.apply(p);
+    Boolean result = theBoard.tryAddShip(s);
+    out.print(view.displayMyOwnBoard());
   }
 
 }
