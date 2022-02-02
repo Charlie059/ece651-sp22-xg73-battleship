@@ -45,9 +45,18 @@ public class TextPlayer {
     shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
   }
 
+  /**
+   * Read the user input of placement data
+   * 
+   * @param String a prompt taht info the user
+   * @return return new placement object
+   * @throws  if user inpit null, thorw {@link IOException}
+   */
   public Placement readPlacement(String prompt) throws IOException {
     this.out.println(prompt);
     String s = inputReader.readLine();
+    if (s == null)
+      throw new IOException("Recieve null string in readPlacement");
     return new Placement(s);
   }
 
@@ -70,7 +79,7 @@ public class TextPlayer {
   public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
     Placement p = readPlacement("Player " + name + " where do you want to place a " + shipName + "?");
     Ship<Character> s = createFn.apply(p);
-    Boolean result = theBoard.tryAddShip(s);
+    theBoard.tryAddShip(s);
     out.print(view.displayMyOwnBoard());
   }
 

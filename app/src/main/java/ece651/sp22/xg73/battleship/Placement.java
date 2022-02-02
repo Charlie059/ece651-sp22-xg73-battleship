@@ -62,7 +62,7 @@ public class Placement {
     // Check orientaion
     if (!(orientationStr_.equals("H") || orientationStr_.equals("V"))) {
       throw new IllegalArgumentException(
-          "Placement's orientation string must be either H or V but is " + orientationStr);
+          "That placement is invalid: it does not have the correct format.");
     }
     return orientationStr_;
   }

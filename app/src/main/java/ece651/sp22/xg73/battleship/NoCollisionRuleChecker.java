@@ -6,13 +6,21 @@ public class NoCollisionRuleChecker<T> extends PlacementRuleChecker<T> {
     super(next);
   }
 
+  /**
+   * Check the ship has no collision
+   * 
+   * @param The object of ship
+   * @param the object of the board
+   * @return A string indicate if the ship has collision with each others, if no collision happened, return null
+   */
+
   @Override
-  protected boolean checkMyRule(Ship<T> theShip, Board<T> theBoard) {
+  protected String checkMyRule(Ship<T> theShip, Board<T> theBoard) {
     for (Coordinate c : theShip.getCoordinates()) {
-      if(theBoard.whatIsAt(c) != null){
-        return false;
+      if (theBoard.whatIsAt(c) != null) {
+        return "That placement is invalid: the ship overlaps another ship.";
       }
     }
-    return true;
+    return null;
   }
 }
