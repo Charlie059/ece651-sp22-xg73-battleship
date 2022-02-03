@@ -1,5 +1,6 @@
 package ece651.sp22.xg73.battleship;
 
+import java.util.ArrayList;
 import java.util.function.Function;
 
 /**
@@ -93,4 +94,65 @@ public class BoardTextView {
   }
 
 
+  /**
+   * Make Space of Str
+   * @param size Space needed
+   * @return Space Str
+   */
+  public String makeSpace(int size){
+    String ans = new String();
+    for(int i = 0; i < size; i++){
+      ans += " ";
+    }
+    return ans;
+  }
+  /**
+   *
+   * @param enemyView BoardTextView Object of enemy view
+   * @param myHeader My "header" lines, shown in the README, e.g.
+   *  "Your ocean"
+   * @param enemyHeader Enemy "header" lines, shown in the README, e.g.
+   *  "Player B's ocean".
+   * @return A string which shows the two board
+   */
+  public String displayMyBoardWithEnemyNextToIt(BoardTextView enemyView, String myHeader, String enemyHeader) {
+    String ans = new String();
+    String spaceOfBoard = "                "; // 16 space
+    String offset = "  "; // 2 space
+    String header =  makeHeader(myHeader, enemyHeader);
+    ans += header;
+
+    // Spilt the board
+    String[] myViewSpilt = displayMyOwnBoard().split("\n");
+    String[] enemyViewSpilt = enemyView.displayEnemyBoard().split("\n");
+    ArrayList<String> mergeView = new ArrayList<>();
+    for (int i = 0; i < myViewSpilt.length; i++) {
+      // If not the first line or the last line
+      if(i != 0 && i != myViewSpilt.length - 1){
+        mergeView.add(myViewSpilt[i] + spaceOfBoard + enemyViewSpilt[i]);
+      }
+      else {
+        mergeView.add(myViewSpilt[i]  + spaceOfBoard + offset + enemyViewSpilt[i]);
+      }
+      ans += mergeView.get(i) + "\n";
+    }
+    return ans;
+  }
+
+  /**
+   * Make haeder of displayMyBoardWithEnemyNextToIt
+   * @param myHeader
+   * @param enemyHeader
+   * @return
+   */
+  private String  makeHeader(String myHeader, String enemyHeader) {
+    String spaceOfFirstHeader = "     "; // 5 space
+    int w = this.toDisplay.getWidth();
+    int secondHeaderStart = 2 * w + 22;
+    int myHeaderLen = myHeader.length();
+    int spaceBetweenHeader = secondHeaderStart - 5 - myHeaderLen;
+    String spaceOfGapBetweenHeader = makeSpace(spaceBetweenHeader);
+    String header = spaceOfFirstHeader + myHeader + spaceOfGapBetweenHeader +  enemyHeader + "\n";
+    return header;
+  }
 }

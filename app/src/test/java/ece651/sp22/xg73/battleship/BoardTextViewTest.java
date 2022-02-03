@@ -2,6 +2,7 @@ package ece651.sp22.xg73.battleship;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 
 public class BoardTextViewTest {
@@ -128,6 +129,53 @@ public class BoardTextViewTest {
     board.fireAt(c3);
     assertEquals(enemyView_hit_Enemy, view.displayEnemyBoard());
   }
+
+
+  @Test
+  public void test_displayMyBoardWithEnemyNextToIt(){
+    BattleShipBoard<Character> my_board = new BattleShipBoard<Character>(10,20,'X');
+    BattleShipBoard<Character> enemy_board = new BattleShipBoard<Character>(10,20,'X');
+    BoardTextView my_view = new BoardTextView(my_board);
+    BoardTextView enemy_view = new BoardTextView(enemy_board);
+
+    String excepted =
+            "     Your ocean                           Player B's ocean\n" +
+            "  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9\n" +
+            "A  | | | | | | | | |  A                A  | | | | | | | | |  A\n" +
+            "B *|s| | | | | | | |  B                B X| | | | | | | | |  B\n" +
+            "C  | | | | | | | | |  C                C  | | | | | | | | |  C\n" +
+            "D  | | | | | | | | |  D                D  | | | | | | | | |  D\n" +
+            "E  | | | | | | | | |  E                E  | | | | | | | | |  E\n" +
+            "F  | | | | | | | | |  F                F  | | | | | | | | |  F\n" +
+            "G  | | | | | | | | |  G                G  | | | | | | | | |  G\n" +
+            "H  | | | | | | | | |  H                H  | | | | | | | | |  H\n" +
+            "I  | | | | | | | | |  I                I  | | | | | | | | |  I\n" +
+            "J  | | | | | | | | |  J                J  | | | | | | | | |  J\n" +
+            "K  | | | | | | | | |  K                K  | | | | | | | | |  K\n" +
+            "L  | | | | | | | | |  L                L  | | | | | | | | |  L\n" +
+            "M  | | | | | | | | |  M                M  | | | | | | | | |  M\n" +
+            "N  | | | | | | | | |  N                N  | | | | | | | | |  N\n" +
+            "O  | | | | | | | | |  O                O  | | | | | | | | |  O\n" +
+            "P  | | | | | | | | |  P                P  | | | | | | | | |  P\n" +
+            "Q  | | | | | | | | |  Q                Q  | | | | | | | | |  Q\n" +
+            "R  | | | | | | | | |  R                R  | | | | | | | | |  R\n" +
+            "S  | | | | | | | | |  S                S  | | | | | | | | |  S\n" +
+            "T  | | | | | | | | |  T                T  | | | | | | | | |  T\n" +
+            "  0|1|2|3|4|5|6|7|8|9                    0|1|2|3|4|5|6|7|8|9\n";
+    Coordinate c = new Coordinate("a0");
+    V1ShipFactory sf = new V1ShipFactory();
+    Coordinate c1 = new Coordinate("b0");
+    Coordinate c2 = new Coordinate("a3");
+    Ship<Character> s1 = sf.makeSubmarine(new Placement(c1, 'H'));
+    Ship<Character> s2 = sf.makeDestroyer(new Placement(c2, 'v'));
+    my_board.tryAddShip(s1);
+    my_board.fireAt(c1);
+    enemy_board.tryAddShip(s2);
+    enemy_board.fireAt(c1);
+    assertEquals(excepted, my_view.displayMyBoardWithEnemyNextToIt(enemy_view,"Your ocean", "Player B's ocean"));
+  }
+
+
 
 
 
