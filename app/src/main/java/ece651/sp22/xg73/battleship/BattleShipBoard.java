@@ -101,9 +101,9 @@ public class BattleShipBoard<T> implements Board<T> {
    * @return Return true if we add the Ship seccess, else return false
    */
   public String tryAddShip(Ship<T> toAdd) {
-    String check = this.placementChecker.checkPlacement(toAdd, this);
-    if (check != null) {
-      return check;
+    String result = this.placementChecker.checkPlacement(toAdd, this);
+    if (result != null) {
+      return result;
     }
     this.myShips.add(toAdd);
     return null;
@@ -123,7 +123,7 @@ public class BattleShipBoard<T> implements Board<T> {
         return s.getDisplayInfoAt(where, isSelf);
       }
     }
-    // If in the enemy board
+    // if not self
     if(isSelf == false){
         if(enemyMisses.contains(where)){
           return missInfo;

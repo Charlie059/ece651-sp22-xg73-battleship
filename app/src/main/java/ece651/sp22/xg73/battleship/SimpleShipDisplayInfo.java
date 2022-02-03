@@ -15,7 +15,6 @@ public class SimpleShipDisplayInfo<T> implements ShipDisplayInfo<T> {
    * 
    */
 
-  //?
   @Override
   public T getInfo(Coordinate where, boolean hit) {
     if(hit) return onHit;

@@ -29,12 +29,12 @@ public class TextPlayer {
    * @param factory The Ship Factory object
    */
   public TextPlayer(String name, Board<Character> theBoard, BufferedReader br, PrintStream out, V1ShipFactory factory) {
+    this.name = name;
     this.theBoard = theBoard;
     this.view = new BoardTextView(theBoard);
     this.inputReader = br;
     this.out = out;
     this.shipFactory = factory;
-    this.name = name;
     this.shipsToPlace = new ArrayList<String>();
     this.shipCreationFns = new HashMap<String, Function<Placement, Ship<Character>>>();
     setupShipCreationList();
@@ -146,9 +146,16 @@ public class TextPlayer {
    * @throws IOException if add ship failure
    */
   public void doOnePlacement(String shipName, Function<Placement, Ship<Character>> createFn) throws IOException {
-    Placement p = reReadPlacement("Player " + name + " where do you want to place a " + shipName + "?",false);
-    Ship<Character> s = createFn.apply(p);
-    theBoard.tryAddShip(s);
+
+    boolean reEnter = true;
+    do {
+      Placement p = reReadPlacement("Player " + name + " where do you want to place a " + shipName + "?",false);
+      Ship<Character> s = createFn.apply(p);
+      String result = theBoard.tryAddShip(s);
+      if(result != null) out.println(result);
+      else reEnter = false;
+    }
+    while (reEnter == true);
     out.print(view.displayMyOwnBoard());
   }
 
