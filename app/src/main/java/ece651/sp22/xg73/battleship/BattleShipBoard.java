@@ -43,8 +43,8 @@ public class BattleShipBoard<T> implements Board<T> {
 
   /**
    * This method should search for any ship that occupies coordinate c. If one is
-   * found, that Ship is "hit" by the attack and should record it (you already
-   * have a method for that!). Then we should return this ship.
+   * found, that Ship is "hit" by the attack and should record it
+   * Then we should return this ship.
    * 
    * @param c Coordinate to fire at
    * @return
@@ -59,9 +59,6 @@ public class BattleShipBoard<T> implements Board<T> {
     }
     // No hit record the miss
     enemyMisses.add(c);
-
-    // Check lose
-    checkLose();
     return null;
   }
 

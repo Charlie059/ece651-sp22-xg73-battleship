@@ -3,6 +3,8 @@
  */
 package ece651.sp22.xg73.battleship;
 
+import org.checkerframework.checker.units.qual.C;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,9 +21,45 @@ public class App {
     this.p2 = p2;
   }
 
+  /**
+   * Do placement phase of the game
+   * @throws IOException
+   */
   public void doPlacementPhase() throws IOException {
     this.p1.doPlacementPhase();
     this.p2.doPlacementPhase();
+  }
+
+  /**
+   * Do Attack Phase of the game
+   */
+  public void doAttackingPhase(){
+    boolean gameOver = false;
+
+    do {
+      // p1 turn
+      BoardTextView p1View = this.p1.view;
+      this.p1.playOneTurn(p2.theBoard, p1View, "A");
+
+      // Check Lose
+      if(this.p2.theBoard.checkLose() == true){
+        System.out.println("Player " + p1.name + " win! Game Over!");
+        gameOver = true;
+        return;
+      }
+      // p2 turn
+      BoardTextView p2View = this.p2.view;
+      this.p2.playOneTurn(p1.theBoard, p2View, "B");
+
+      // Check Lose
+      if(this.p1.theBoard.checkLose() == true){
+        System.out.println("Player " + p1.name + " win! Game Over!");
+        gameOver = true;
+        return;
+      }
+    }
+    while (gameOver == false);
+
   }
 
   public static void main(String[] args) throws IOException {
@@ -33,5 +71,6 @@ public class App {
     TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
     App a = new App(p1, p2);
     a.doPlacementPhase();
+    a.doAttackingPhase();
   }
 }

@@ -157,6 +157,7 @@ public class BattleShipBoardTest {
     Coordinate c2 = new Coordinate(0,0);
     Coordinate c3 = new Coordinate(0,1);
     b1.fireAt(c2);
+    assertEquals(false, b1.checkLose());
     b1.fireAt(c3);
     assertEquals(true, b1.checkLose());
   }
