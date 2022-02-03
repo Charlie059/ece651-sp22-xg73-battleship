@@ -1,5 +1,7 @@
 package ece651.sp22.xg73.battleship;
 
+import java.util.function.Function;
+
 /**
  * This class handles textual display of a Board (i.e., converting it to a
  * string to show to the user). It supports two ways to display the Board: one
@@ -49,18 +51,18 @@ public class BoardTextView {
    * 
    * @return the String that is the rows (except header) for the given board
    */
-  public String makeRows() {
+  public String makeRows(Function<Coordinate, Character> getSquareFn) {
     StringBuilder ans = new StringBuilder("");
     for (int i = 0; i < toDisplay.getHeight(); i++) {
       ans.append((char)('A' + i) + " ");
       for (int j = 0; j < toDisplay.getWidth(); j++) {
          Coordinate c = new Coordinate(i,j);
         if (j != toDisplay.getWidth() - 1) {
-          ans.append(this.toDisplay.whatIsAt(c) != null ?this.toDisplay.whatIsAt(c):" ");
+          ans.append(getSquareFn.apply(c) != null ?getSquareFn.apply(c):" ");
           ans.append("|");
         }
         else{
-          ans.append(this.toDisplay.whatIsAt(c) != null ? this.toDisplay.whatIsAt(c):" ");
+          ans.append(getSquareFn.apply(c) != null ? getSquareFn.apply(c):" ");
           ans.append(" " + (char)('A' + i) + "\n");
         }
       }
@@ -70,14 +72,25 @@ public class BoardTextView {
 
   /**
    * This display the empty board
-   * 
+   * @param getSquareFn
    * @return the String that display the empty board with head and rows
    */
-  public String displayMyOwnBoard() {
+  public String displayAnyBoard(Function<Coordinate, Character> getSquareFn) {
     StringBuilder ans = new StringBuilder("");
     ans.append(makeHeader());
-    ans.append(makeRows());
+    ans.append(makeRows(getSquareFn));
     ans.append(makeHeader());
     return ans.toString();
   }
+
+
+  public String displayMyOwnBoard() {
+    return displayAnyBoard((c)->toDisplay.whatIsAtForSelf(c));
+  }
+
+  public String displayEnemyBoard(){
+    return displayAnyBoard((c)->toDisplay.whatIsAtForEnemy(c));
+  }
+
+
 }

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class NoCollisionRuleCheckerTest {
   @Test
   public void test_checkMyRule_coll() {
-    BattleShipBoard<Character> board = new BattleShipBoard<Character>(10, 10);
+    BattleShipBoard<Character> board = new BattleShipBoard<Character>(10, 10, 'X');
     PlacementRuleChecker<Character> checker = new NoCollisionRuleChecker<Character>(null);
     V1ShipFactory v1shipfactory = new V1ShipFactory();
     Coordinate c = new Coordinate("A0");
@@ -32,7 +32,7 @@ public class NoCollisionRuleCheckerTest {
 
   @Test
   public void test_checkMyRule_coll_and_In_bound() {
-    BattleShipBoard<Character> board = new BattleShipBoard<Character>(10, 10);
+    BattleShipBoard<Character> board = new BattleShipBoard<Character>(10, 10, 'X');
 
     PlacementRuleChecker<Character> in_bound_checker = new InBoundsRuleChecker<Character>(null);
     PlacementRuleChecker<Character> no_coll_checker = new NoCollisionRuleChecker<Character>(in_bound_checker);

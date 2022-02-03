@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class InBoundsRuleCheckerTest {
   @Test
   public void test_checkMyRule() {
-    BattleShipBoard<Character> board = new BattleShipBoard<Character>(10, 20);
+    BattleShipBoard<Character> board = new BattleShipBoard<Character>(10, 20, 'X');
     PlacementRuleChecker<Character> checker = new InBoundsRuleChecker<Character>(null);
     V1ShipFactory v1shipfactory = new V1ShipFactory();
     Coordinate c = new Coordinate("A0");
@@ -27,7 +27,7 @@ public class InBoundsRuleCheckerTest {
 
   @Test
   public void test_check_my_placement() {
-    BattleShipBoard<Character> board = new BattleShipBoard<Character>(10, 20);
+    BattleShipBoard<Character> board = new BattleShipBoard<Character>(10, 20, 'X');
     PlacementRuleChecker<Character> checker_ = new InBoundsRuleChecker<Character>(null);
 
     PlacementRuleChecker<Character> checker = new InBoundsRuleChecker<Character>(checker_);

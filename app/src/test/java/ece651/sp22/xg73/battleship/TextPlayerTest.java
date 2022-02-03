@@ -18,7 +18,7 @@ public class TextPlayerTest {
   private TextPlayer createTextPlayer(int w, int h, String inputData, OutputStream bytes) {
     BufferedReader input = new BufferedReader(new StringReader(inputData));
     PrintStream output = new PrintStream(bytes, true);
-    Board<Character> board = new BattleShipBoard<Character>(w, h);
+    Board<Character> board = new BattleShipBoard<Character>(w, h, 'X');
     V1ShipFactory shipFactory = new V1ShipFactory();
     return new TextPlayer("A", board, input, output, shipFactory);
   }
@@ -68,7 +68,7 @@ public class TextPlayerTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(bytes, true);
 
-    Board<Character> b = new BattleShipBoard<Character>(3, 4);
+    Board<Character> b = new BattleShipBoard<Character>(3, 4, 'X');
     TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory());
     V1ShipFactory sf = new V1ShipFactory();
     player.doOnePlacement("Submarine", (p) -> sf.makeSubmarine(p));
@@ -80,7 +80,7 @@ public class TextPlayerTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(bytes, true);
 
-    Board<Character> b = new BattleShipBoard<Character>(10, 10);
+    Board<Character> b = new BattleShipBoard<Character>(10, 10, 'X');
     TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory());
     player.doPlacementPhase();
 
