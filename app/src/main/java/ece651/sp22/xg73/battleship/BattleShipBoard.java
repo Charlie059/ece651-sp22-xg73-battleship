@@ -15,7 +15,7 @@ public class BattleShipBoard<T> implements Board<T> {
   private final int height;
   private final ArrayList<Ship<T>> myShips;
   private final PlacementRuleChecker<T> placementChecker;
-  HashSet<Coordinate> enemyMisses;
+  private HashSet<Coordinate> enemyMisses;
   private final T missInfo;
 
   /**
@@ -46,7 +46,7 @@ public class BattleShipBoard<T> implements Board<T> {
    * found, that Ship is "hit" by the attack and should record it (you already
    * have a method for that!). Then we should return this ship.
    * 
-   * @param c Coordinate
+   * @param c Coordinate to fire at
    * @return
    */
   public Ship<T> fireAt(Coordinate c) {
@@ -59,8 +59,26 @@ public class BattleShipBoard<T> implements Board<T> {
     }
     // No hit record the miss
     enemyMisses.add(c);
+
+    // Check lose
+    checkLose();
     return null;
   }
+
+  /**
+   * Check if we lose the game. ie. sunk all the ships
+   * @return if true, lose the game, else not lose now
+   */
+  @Override
+  public boolean checkLose() {
+    for(Ship<T> ship: myShips){
+      if (ship.isSunk() == false){
+        return false;
+      }
+    }
+    return true;
+  }
+
 
   /**
    * Gets the battleship board’s width.
@@ -97,8 +115,8 @@ public class BattleShipBoard<T> implements Board<T> {
   /**
    * This method takes a Coordinate, and sees which (if any) Ship occupies that
    * coordinate.
-   * @param Coordinate of where
-   * @param boolean is self or enemy
+   * @param where of Coordinate
+   * @param isSelf is self or enemy
    * @return If one is found, we return whatever displayInfo it has at those
    *         coordinates. If none is found, we return null.
    */
@@ -120,7 +138,7 @@ public class BattleShipBoard<T> implements Board<T> {
   /**
    * This method takes a Coordinate, and sees which (if any) Ship occupies that
    * coordinate.
-   * @param Coordinate of where
+   * @param where of Coordinate
    * @return If one is found, we return whatever displayInfo it has at those
    *         coordinates. If none is found, we return null.
    */
@@ -132,4 +150,7 @@ public class BattleShipBoard<T> implements Board<T> {
   public T whatIsAtForSelf(Coordinate where) {
     return whatIsAt(where, true);
   }
+
+
+
 }

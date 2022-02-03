@@ -9,4 +9,5 @@ public interface Board<T> {
   public T whatIsAtForEnemy(Coordinate where);
   public String tryAddShip(Ship<T> toAdd);
   public Ship<T> fireAt(Coordinate c);
+  public boolean checkLose();
 }

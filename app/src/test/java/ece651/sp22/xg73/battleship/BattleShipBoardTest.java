@@ -1,6 +1,7 @@
 package ece651.sp22.xg73.battleship;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -139,6 +140,25 @@ public class BattleShipBoardTest {
     b1.fireAt(c2);
 
     assertEquals('X', b1.whatIsAtForEnemy(c2));
+  }
+
+
+  @Test
+  public void check_checkLose(){
+    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(4, 3, 'X');
+    Coordinate c1 = new Coordinate(0,0);
+
+    Placement p1 = new Placement(c1, 'h');
+    V1ShipFactory sf = new V1ShipFactory();
+    Ship<Character> ship = sf.makeSubmarine(p1);
+    b1.tryAddShip(ship);
+    assertEquals(null, b1.whatIsAtForEnemy(c1));
+
+    Coordinate c2 = new Coordinate(0,0);
+    Coordinate c3 = new Coordinate(0,1);
+    b1.fireAt(c2);
+    b1.fireAt(c3);
+    assertEquals(true, b1.checkLose());
   }
 
 }
