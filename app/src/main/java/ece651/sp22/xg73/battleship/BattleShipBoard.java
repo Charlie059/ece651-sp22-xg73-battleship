@@ -1,6 +1,7 @@
 package ece651.sp22.xg73.battleship;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * BattleShipBoard Class which implement interface Board
@@ -14,6 +15,7 @@ public class BattleShipBoard<T> implements Board<T> {
   private final int height;
   private final ArrayList<Ship<T>> myShips;
   private final PlacementRuleChecker<T> placementChecker;
+  HashSet<Coordinate> enemyMisses;
 
   /**
    * Constructs a BattleShipBoard with the specified width and height
@@ -34,6 +36,27 @@ public class BattleShipBoard<T> implements Board<T> {
     this.height = height;
     this.myShips = new ArrayList<Ship<T>>();
     this.placementChecker = new InBoundsRuleChecker<T>(new NoCollisionRuleChecker<T>(null));
+    this.enemyMisses = new HashSet<Coordinate>();
+  }
+
+  /**
+   * This method should search for any ship that occupies coordinate c. If one is
+   * found, that Ship is "hit" by the attack and should record it (you already
+   * have a method for that!). Then we should return this ship.
+   * 
+   * @param The hit coordinate c
+   * @return
+   */
+  public Ship<T> fireAt(Coordinate c) {
+    for (int i = 0; i < myShips.size(); i++) {
+      Ship<T> ship = myShips.get(i);
+      if(ship.occupiesCoordinates(c) == true){
+        ship.recordHitAt(c);
+        return ship;
+      }
+    }
+    // No hit
+    return null;
   }
 
   /**

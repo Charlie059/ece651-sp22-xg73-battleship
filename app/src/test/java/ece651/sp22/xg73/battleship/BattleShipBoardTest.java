@@ -60,16 +60,27 @@ public class BattleShipBoardTest {
     Placement p2 = new Placement(c2, 'h');
     Placement p3 = new Placement(c3, 'v');
     Ship<Character> battShip1 = v1shipfactory.makeBattleship(p);
-    Ship<Character> battShip2 = v1shipfactory.makeBattleship(p2);
     Ship<Character> battShip3 = v1shipfactory.makeBattleship(p3);
+    Ship<Character> battShip2 = v1shipfactory.makeBattleship(p2);
+
     // Out of bound
-    assertEquals(false, board.tryAddShip(battShip1));
+    assertEquals("That placement is invalid: the ship goes off the right of the board.", board.tryAddShip(battShip1));
 
     // Success add ship 2 to board
-    assertEquals(true, board.tryAddShip(battShip2));
+    assertEquals(null, board.tryAddShip(battShip2));
 
     // Coll -> fail
-    assertEquals(false, board.tryAddShip(battShip3));
+    assertEquals("That placement is invalid: the ship overlaps another ship.", board.tryAddShip(battShip3));
+  }
+
+  @Test
+  private <T> void checkfireAt() {
+    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(4, 3);
+    Coordinate c = new Coordinate(0,0);
+    Placement p1 = new Placement(c, 'h');
+    V1ShipFactory sf = new V1ShipFactory();
+    Ship<Character> ship = sf.makeBattleship(p1);
+    b1.tryAddShip(ship);
   }
 
 }

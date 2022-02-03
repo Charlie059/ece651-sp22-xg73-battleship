@@ -1,6 +1,7 @@
 package ece651.sp22.xg73.battleship;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -9,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TextPlayerTest {
@@ -19,6 +21,24 @@ public class TextPlayerTest {
     Board<Character> board = new BattleShipBoard<Character>(w, h);
     V1ShipFactory shipFactory = new V1ShipFactory();
     return new TextPlayer("A", board, input, output, shipFactory);
+  }
+
+  @Test
+  void test_read_placement_null() throws IOException {
+    String prompt = "Please enter a location for a ship:";
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    TextPlayer player = createTextPlayer(10, 20, "", bytes);
+    V1ShipFactory sf = new V1ShipFactory();
+    assertThrows(IOException.class, () -> player.doOnePlacement("Submarine", (p) -> sf.makeSubmarine(p)));
+  }
+
+  @Test
+  void test_read_placement_invalid_placement() throws IOException {
+    String prompt = "Please enter a location for a ship:";
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    TextPlayer player = createTextPlayer(10, 20, "AAV", bytes);
+    V1ShipFactory sf = new V1ShipFactory();
+    assertThrows(IllegalArgumentException.class, () -> player.doOnePlacement("Submarine", (p) -> sf.makeSubmarine(p)));
   }
 
   @Test
@@ -50,17 +70,17 @@ public class TextPlayerTest {
 
     Board<Character> b = new BattleShipBoard<Character>(3, 4);
     TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory());
-    player.doOnePlacement();
-
+    V1ShipFactory sf = new V1ShipFactory();
+    player.doOnePlacement("Submarine", (p) -> sf.makeSubmarine(p));
   }
 
   @Test
   void test_do_placement_phase() throws IOException {
-    StringReader sr = new StringReader("B2V\n");
+    StringReader sr = new StringReader("A1h\nA5h\nB1h\nB5h\nC1h\nC5h\nD1h\nD5h\nE1h\nE5h\n");
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(bytes, true);
 
-    Board<Character> b = new BattleShipBoard<Character>(3, 4);
+    Board<Character> b = new BattleShipBoard<Character>(10, 10);
     TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory());
     player.doPlacementPhase();
 
