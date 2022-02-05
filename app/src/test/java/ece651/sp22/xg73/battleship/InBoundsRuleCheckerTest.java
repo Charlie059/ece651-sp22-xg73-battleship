@@ -15,13 +15,13 @@ public class InBoundsRuleCheckerTest {
     Ship<Character> battShip = v1shipfactory.makeBattleship(p);
 
     // No error placeement
-    assertEquals(null, checker.checkMyRule(battShip, board));
+    assertEquals(null, checker.checkMyRule(battShip, board,null));
 
     Coordinate c2 = new Coordinate("T9");
     Placement p2 = new Placement(c2, 'v');
     Ship<Character> battShip2 = v1shipfactory.makeBattleship(p2);
     assertEquals("That placement is invalid: the ship goes off the bottom of the board.",
-        checker.checkMyRule(battShip2, board));
+        checker.checkMyRule(battShip2, board,null));
 
   }
 
@@ -37,28 +37,28 @@ public class InBoundsRuleCheckerTest {
     Ship<Character> battShip = v1shipfactory.makeBattleship(p);
 
     // Vaild Placement
-    assertEquals(null, checker.checkPlacement(battShip, board));
+    assertEquals(null, checker.checkPlacement(battShip, board,null));
 
     // Placement Out of bound
     Coordinate c2 = new Coordinate("T9");
     Placement p2 = new Placement(c2, 'h');
     Ship<Character> battShip2 = v1shipfactory.makeBattleship(p2);
     assertEquals("That placement is invalid: the ship goes off the right of the board.",
-        checker.checkPlacement(battShip2, board));
+        checker.checkPlacement(battShip2, board,null));
 
     // Placement Out of bound
     Coordinate c3 = new Coordinate(-1, 0);
     Placement p3 = new Placement(c3, 'v');
     Ship<Character> battShip3 = v1shipfactory.makeBattleship(p3);
     assertEquals("That placement is invalid: the ship goes off the top of the board.",
-        checker.checkPlacement(battShip3, board));
+        checker.checkPlacement(battShip3, board,null));
 
     // Placement Out of bound
     Coordinate c4 = new Coordinate(1, -1);
     Placement p4 = new Placement(c4, 'v');
     Ship<Character> battShip4 = v1shipfactory.makeBattleship(p4);
     assertEquals("That placement is invalid: the ship goes off the left of the board.",
-        checker.checkPlacement(battShip4, board));
+        checker.checkPlacement(battShip4, board,null));
 
 
 

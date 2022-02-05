@@ -76,6 +76,163 @@ public class BattleShipBoard<T> implements Board<T> {
     return true;
   }
 
+  /**
+   * Give the coordination check which ship in this coordination or null
+   * @param c coordination to be checked
+   * @return Ship which occupy this coordination
+   */
+  @Override
+  public Ship<T> whichShip(Coordinate c) {
+    if (whatIsAt(c, true) == null) return null;
+    for(Ship<T> ship: myShips){
+      for(Coordinate shipCoordinate: ship.getCoordinates()){
+        if(shipCoordinate.equals(c)){
+          return ship;
+        }
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public String tryMoveShip(Coordinate from, Coordinate to, char DestOrientation) {
+    Ship<T> shipToBeMv = whichShip(from);
+    if(shipToBeMv == null) return "Invalid location: it seems like no ship in that position! Please try again!";
+    // No need to valid Coordinate to because we have checker
+
+    Iterable<Coordinate> originCoordinate = shipToBeMv.getCoordinates();
+    Ship<T> dummyShip = null;
+    String shipName = shipToBeMv.getName();
+    if(shipName == "Submarine" || shipName == "Destroyer"){
+      dummyShip = getDummyShip_Sub_Dest(to, DestOrientation, shipToBeMv, shipName);
+    }
+    else{
+      dummyShip = getDummyShip_bat_Car(to, DestOrientation, shipToBeMv, shipName);
+    }
+
+    // Validate the location
+    String result = this.placementChecker.checkPlacement(dummyShip, this, originCoordinate);
+    if(result != null) return result;
+
+    // Move the real ship
+    moveShip(to, DestOrientation, shipToBeMv);
+    return null;
+  }
+
+  private Ship<T> getDummyShip_bat_Car(Coordinate to, char DestOrientation, Ship<T> shipToBeMv, String shipName) {
+    Ship<T> dummyShip;
+    NonRectangleShip<Character> shipToBeMv_ = (NonRectangleShip<Character>) shipToBeMv;
+    Placement p = new Placement(shipToBeMv.getLeftTopCoordinate(), shipToBeMv.getOrientation());
+    dummyShip = (Ship<T>) new NonRectangleShip<Character>(shipName, shipName ,p, shipToBeMv_.getWidth(), shipToBeMv_.getHeight(), 't', '*');
+
+    moveShip(to, DestOrientation, dummyShip);
+    return dummyShip;
+  }
+
+  private void moveShip(Coordinate to, char DestOrientation, Ship<T> dummyShip) {
+    // Check curr orientation
+    char currOrientation = dummyShip.getOrientation();
+
+    // Check the ship type
+    String shipType = dummyShip.getName();
+
+    int rotateTimes = getRotateTimes(DestOrientation, currOrientation, shipType);
+
+    // Rotate the ship
+    for (int i = 0; i < rotateTimes; i++) {
+      dummyShip.rotateShip();
+    }
+
+    // Correct the location
+    Coordinate wrongCoordinate =  dummyShip.getLeftTopCoordinate();
+    int row_offset = to.getRow() - wrongCoordinate.getRow();
+    int col_offset = to.getColumn() - wrongCoordinate.getColumn();
+
+    dummyShip.shiftShip(row_offset, col_offset);
+    // Update the ship orientation
+    dummyShip.setOrientation(DestOrientation);
+  }
+
+  private Ship<T> getDummyShip_Sub_Dest(Coordinate to, char DestOrientation, Ship<T> shipToBeMv, String shipName) {
+    Ship<T> dummyShip;
+    RectangleShip<Character> shipToBeMv_ = (RectangleShip<Character>) shipToBeMv;
+    Placement p = new Placement(shipToBeMv.getLeftTopCoordinate(), shipToBeMv.getOrientation());
+    dummyShip = (Ship<T>) new RectangleShip<Character>(shipName, p, shipToBeMv_.getWidth(), shipToBeMv_.getHeight(), 't', '*');
+
+    // Check curr orientation
+    char currOrientation = dummyShip.getOrientation();
+
+    // Check the ship type
+    String shipType = dummyShip.getName();
+
+    int rotateTimes = getRotateTimes(DestOrientation, currOrientation, shipType);
+
+    // Rotate the ship
+    for (int i = 0; i < rotateTimes; i++) {
+      dummyShip.rotateShip();
+    }
+
+    // Correct the location
+    Coordinate wrongCoordinate =  dummyShip.getLeftTopCoordinate();
+    int row_offset = to.getRow() - wrongCoordinate.getRow();
+    int col_offset = to.getColumn() - wrongCoordinate.getColumn();
+
+    dummyShip.shiftShip(row_offset, col_offset);
+    return dummyShip;
+  }
+
+  // TODO ERROR handling
+  private int getRotateTimes(char DestOrientation, char currOrientation, String shipType) {
+    if(shipType == "Submarine" || shipType == "Destroyer"){
+      int currOrientationIdx = getIdxOfOrientation_Sub_Dest(currOrientation);
+      int destOrientationIdx = getIdxOfOrientation_Sub_Dest(DestOrientation);
+      if(currOrientationIdx > destOrientationIdx){
+        destOrientationIdx += 2;
+      }
+      int rotateTimes = destOrientationIdx - currOrientationIdx;
+      return rotateTimes;
+    }
+    else{ // Battleships and Carriers
+      int currOrientationIdx = getIdxOfOrientation_Bat_Car(currOrientation);
+      int destOrientationIdx = getIdxOfOrientation_Bat_Car(DestOrientation);
+      if(currOrientationIdx > destOrientationIdx){
+        destOrientationIdx += 4;
+      }
+      int rotateTimes = destOrientationIdx - currOrientationIdx;
+      return rotateTimes;
+    }
+  }
+
+  private int getIdxOfOrientation_Sub_Dest(char currOrientation) {
+    int currOrientationIdx = -1;
+    if(currOrientation == 'H'){
+      currOrientationIdx = 0;
+    }
+    else if (currOrientation == 'V'){
+      currOrientationIdx = 1;
+    }
+    return currOrientationIdx;
+  }
+
+
+  private int getIdxOfOrientation_Bat_Car(char currOrientation) {
+    int currOrientationIdx = -1;
+    if(currOrientation == 'U'){
+      currOrientationIdx = 0;
+    }
+    else if (currOrientation == 'R'){
+      currOrientationIdx = 1;
+    }
+    else if (currOrientation == 'D'){
+      currOrientationIdx = 2;
+    }
+    else if (currOrientation == 'L'){
+      currOrientationIdx = 3;
+    }
+    return currOrientationIdx;
+  }
+
+
 
   /**
    * Gets the battleship board’s width.
@@ -101,7 +258,7 @@ public class BattleShipBoard<T> implements Board<T> {
    * @return Return true if we add the Ship seccess, else return false
    */
   public String tryAddShip(Ship<T> toAdd) {
-    String result = this.placementChecker.checkPlacement(toAdd, this);
+    String result = this.placementChecker.checkPlacement(toAdd, this, null);
     if (result != null) {
       return result;
     }

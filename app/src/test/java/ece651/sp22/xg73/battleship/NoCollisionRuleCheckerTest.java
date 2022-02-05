@@ -22,11 +22,11 @@ public class NoCollisionRuleCheckerTest {
 
     // Coll with b1
     Ship<Character> battShip2 = v1shipfactory.makeBattleship(p2);
-    assertEquals("That placement is invalid: the ship overlaps another ship.", checker.checkMyRule(battShip2, board));
+    assertEquals("That placement is invalid: the ship overlaps another ship.", checker.checkMyRule(battShip2, board,null));
 
     // No coll
     Ship<Character> battShip3 = v1shipfactory.makeBattleship(p3);
-    assertEquals(null, checker.checkMyRule(battShip3, board));
+    assertEquals(null, checker.checkMyRule(battShip3, board,null));
 
   }
 
@@ -49,11 +49,11 @@ public class NoCollisionRuleCheckerTest {
     board.tryAddShip(battShip);
     Ship<Character> battShip2 = v1shipfactory.makeBattleship(p2);
 
-    assertEquals("That placement is invalid: the ship overlaps another ship.", no_coll_checker.checkMyRule(battShip2, board));
+    assertEquals("That placement is invalid: the ship overlaps another ship.", no_coll_checker.checkMyRule(battShip2, board,null));
 
 
     Ship<Character> battShip3 = v1shipfactory.makeBattleship(p3);
-    assertEquals(null, no_coll_checker.checkMyRule(battShip3, board));
+    assertEquals(null, no_coll_checker.checkMyRule(battShip3, board,null));
 
   }
 

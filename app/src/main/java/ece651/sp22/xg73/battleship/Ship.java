@@ -68,4 +68,34 @@ public interface Ship<T> {
    * @return the name of this ship
    */
   public String getName();
+
+  /**
+   * Shift the ship
+   * @param rows
+   * @param cols
+   */
+  public void shiftShip(int rows, int cols);
+
+  /**
+   * Rotate the ship by 90 degree
+   */
+  public void rotateShip();
+
+  /**
+   * Get the ship left top Coordinate
+   */
+  public Coordinate getLeftTopCoordinate();
+
+  /**
+   * Get the Orientation of that ship
+   * @return
+   */
+  public char getOrientation();
+
+  /**
+   * Get the Orientation of that ship
+   * @return
+   */
+  public void setOrientation(char orientation);
+
 }

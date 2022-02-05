@@ -29,7 +29,8 @@ public class BattleShipBoardTest {
     checkWhatIsAtBoard(b1, expect);
 
     Coordinate c = new Coordinate(1, 2);
-    RectangleShip<Character> s = new RectangleShip<Character>(c, 's', '*');
+    Placement p = new Placement(c, 'H');
+    RectangleShip<Character> s = new RectangleShip<Character>(p, 's', '*');
     b1.tryAddShip(s);
     expect[1][2] = 's';
     checkWhatIsAtBoard(b1, expect);
@@ -162,4 +163,46 @@ public class BattleShipBoardTest {
     assertEquals(true, b1.checkLose());
   }
 
+  @Test
+  public void check_whichShip(){
+    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(4, 3, 'X');
+    Coordinate c1 = new Coordinate(0,0);
+    Coordinate c2 = new Coordinate(2,3);
+    Placement p1 = new Placement(c1, 'h');
+    V1ShipFactory sf = new V1ShipFactory();
+    Ship<Character> ship = sf.makeSubmarine(p1);
+    b1.tryAddShip(ship);
+    assertEquals(ship,  b1.whichShip(c1));
+    assertEquals(null,  b1.whichShip(c2));
+  }
+
+
+  @Test
+  public void check_getRotateTimes(){
+//    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(4, 3, 'X');
+//    Coordinate c1 = new Coordinate(0,0);
+//    Coordinate c2 = new Coordinate(2,3);
+//    Placement p1 = new Placement(c1, 'D');
+//    V2ShipFactory sf = new V2ShipFactory();
+//    Ship<Character> ship = sf.makeCarrier(p1);
+//    b1.tryAddShip(ship);
+//    int ans = b1.getRotateTimes('U',ship.getOrientation(),ship.getName());
+//    assertEquals(2, ans);
+  }
+
+
+  @Test
+  public void test_tryMoveShip(){
+    BattleShipBoard<Character> b1 = new BattleShipBoard<Character>(10, 10, 'X');
+    Coordinate c1 = new Coordinate(0,0);
+    Coordinate c2 = new Coordinate(1,1);
+    Placement p1 = new Placement(c1, 'R');
+    V2ShipFactory sf = new V2ShipFactory();
+    Ship<Character> ship = sf.makeBattleship(p1);
+    b1.tryAddShip(ship);
+    Coordinate c3 = new Coordinate(0,0);
+    b1.tryMoveShip(c3,c2,'D');
+    Placement p2 = new Placement(c1, 'U');
+
+  }
 }

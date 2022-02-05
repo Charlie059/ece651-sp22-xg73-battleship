@@ -10,4 +10,6 @@ public interface Board<T> {
   public String tryAddShip(Ship<T> toAdd);
   public Ship<T> fireAt(Coordinate c);
   public boolean checkLose();
+  public Ship<T> whichShip(Coordinate c);
+  public String tryMoveShip(Coordinate from, Coordinate to, char orientation);
 }

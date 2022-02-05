@@ -7,7 +7,7 @@ public abstract class PlacementRuleChecker<T> {
     this.next = next;
   }
 
-  protected abstract String checkMyRule(Ship<T> theShip, Board<T> theBoard);
+  protected abstract String checkMyRule(Ship<T> theShip, Board<T> theBoard, Iterable<Coordinate> coordinates);
 
   /**
    * Recursion to check the placement problem.
@@ -16,15 +16,15 @@ public abstract class PlacementRuleChecker<T> {
    * @param The board need to be checked
    * @return A string which indicate the placement or return null(no probelm)
    */
-  public String checkPlacement(Ship<T> theShip, Board<T> theBoard) {
-    String check = checkMyRule(theShip, theBoard);
+  public String checkPlacement(Ship<T> theShip, Board<T> theBoard, Iterable<Coordinate> coordinates) {
+    String check = checkMyRule(theShip, theBoard, coordinates);
     // if we fail our own rule: stop the placement is not legal
     if (check != null) {
       return check;
     }
     // other wise, ask the rest of the chain.
     if (next != null) {
-      return next.checkPlacement(theShip, theBoard);
+      return next.checkPlacement(theShip, theBoard, coordinates);
     }
     // if there are no more rules, then the placement is legal
     return null;

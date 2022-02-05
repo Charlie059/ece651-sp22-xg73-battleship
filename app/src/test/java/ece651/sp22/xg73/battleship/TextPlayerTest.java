@@ -21,7 +21,7 @@ public class TextPlayerTest {
     PrintStream output = new PrintStream(bytes, true);
     Board<Character> board = new BattleShipBoard<Character>(w, h, 'X');
     V1ShipFactory shipFactory = new V1ShipFactory();
-    return new TextPlayer("A", board, input, output, shipFactory);
+    return new TextPlayer("A", board, input, output, shipFactory,false);
   }
 
   @Test
@@ -70,7 +70,7 @@ public class TextPlayerTest {
     PrintStream ps = new PrintStream(bytes, true);
 
     Board<Character> b = new BattleShipBoard<Character>(3, 4, 'X');
-    TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory());
+    TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory(),false);
     V1ShipFactory sf = new V1ShipFactory();
     player.doOnePlacement("Submarine", (p) -> sf.makeSubmarine(p));
   }
@@ -82,7 +82,7 @@ public class TextPlayerTest {
     PrintStream ps = new PrintStream(bytes, true);
 
     Board<Character> b = new BattleShipBoard<Character>(10, 10, 'X');
-    TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory());
+    TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory(),false);
     player.doPlacementPhase();
 
   }
@@ -93,7 +93,7 @@ public class TextPlayerTest {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(bytes, true);
     Board<Character> b = new BattleShipBoard<Character>(10, 10, 'X');
-    TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory());
+    TextPlayer player = new TextPlayer("A", b, new BufferedReader(sr), ps, new V1ShipFactory(),false);
     Coordinate c = new Coordinate("A0");
     assertEquals(c, player.reReadPlacement("Please enter a coordinate to attack",true).getCoordinate());
   }
@@ -107,7 +107,7 @@ public class TextPlayerTest {
     Board<Character> myBoard = new BattleShipBoard<Character>(10, 10, 'X');
     Board<Character> enemyBoard = new BattleShipBoard<Character>(10, 10, 'X');
 
-    TextPlayer playerA = new TextPlayer("A", myBoard, new BufferedReader(sr), ps, new V1ShipFactory());
+    TextPlayer playerA = new TextPlayer("A", myBoard, new BufferedReader(sr), ps, new V1ShipFactory(),false);
     //TextPlayer playerB = new TextPlayer("B", myBoard, new BufferedReader(sr), ps, new V1ShipFactory());
 
     BoardTextView myView = new BoardTextView(myBoard);
@@ -115,7 +115,7 @@ public class TextPlayerTest {
     V1ShipFactory sf = new V1ShipFactory();
     Ship<Character> s1 = sf.makeBattleship(new Placement(c, 'H'));
     enemyBoard.tryAddShip(s1);
-    playerA.playOneTurn(enemyBoard, myView,"A");
+    playerA.playOneTurnAttack(enemyBoard, myView,"A");
   }
 
 }

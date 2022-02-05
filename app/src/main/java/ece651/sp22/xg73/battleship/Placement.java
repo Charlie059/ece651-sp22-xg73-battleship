@@ -14,9 +14,9 @@ public class Placement {
   /**
    * Constructs a placement with coordinate and orientation
    * 
-   * @param A Coordinate type of where info
-   * @param A char indicate the orientation. eg: H or V
-   * @throws Throw if Coordinate is invaild or orinentation is not H or V
+   * @param where Coordinate type of where info
+   * @param orientation char indicate the orientation. eg: H or V
+   * @throws if Coordinate is invaild or orinentation is not H or V
    */
 
   public Placement(Coordinate where, char orientation) {
@@ -28,9 +28,9 @@ public class Placement {
   /**
    * Constructs a placement with String. eg: a2H
    * 
-   * @param A String with first two char defined type of where info and A char
+   * @param str String with first two char defined type of where info and A char
    *          indicate the orientation. eg: H or V
-   * @throws Throw if Coordinate is invaild or orinentation is not H or V
+   * @throws if Coordinate is invaild or orinentation is not H or V
    * 
    */
 
@@ -60,7 +60,7 @@ public class Placement {
     String orientationStr_ = orientationStr.toUpperCase();
 
     // Check orientaion
-    if (!(orientationStr_.equals("H") || orientationStr_.equals("V"))) {
+    if (!(orientationStr_.equals("H") || orientationStr_.equals("V") || orientationStr_.equals("U") || orientationStr_.equals("R") || orientationStr_.equals("D") || orientationStr_.equals("L"))) {
       throw new IllegalArgumentException(
           "That placement is invalid: it does not have the correct format.");
     }

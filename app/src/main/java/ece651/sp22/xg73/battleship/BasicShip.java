@@ -1,14 +1,67 @@
 package ece651.sp22.xg73.battleship;
 
+import org.checkerframework.checker.units.qual.C;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 public abstract class BasicShip<T> implements Ship<T> {
 
-  // private final Coordinate myLocation;
+
   protected HashMap<Coordinate, Boolean> myPieces;
   protected ShipDisplayInfo<T> myDisplayInfo;
   protected ShipDisplayInfo<T> enemyDisplayInfo;
 
+
+
+  /**
+   * Get the ship left top Coordinate
+   */
+  public Coordinate getLeftTopCoordinate(){
+    ArrayList<Integer> xs = new ArrayList<Integer>();
+    ArrayList<Integer> ys = new ArrayList<Integer>();
+    for (Coordinate key : myPieces.keySet()) {
+      xs.add(key.getRow());
+      ys.add(key.getColumn());
+    }
+
+    int x = Collections.min(xs);
+    int y = Collections.min(ys);
+    return new Coordinate(x, y);
+  }
+
+
+  /**
+   * Rotate the ship by 90 degree clockwise
+   */
+  public void rotateShip(){
+    HashMap<Coordinate, Boolean> pieces = new HashMap<Coordinate, Boolean>();
+    for (Coordinate key : myPieces.keySet()) {
+      Coordinate newCoordination = new Coordinate(key.getColumn(), -1 * key.getRow() );
+      pieces.put(newCoordination, myPieces.get(key));
+    }
+    this.myPieces = pieces;
+
+    // Get the min(row, col)
+    Coordinate c = getLeftTopCoordinate();
+    int offset = Math.min(c.getRow(),c.getColumn());
+    shiftShip(-1 * offset, -1 *offset);
+  }
+  /**
+   * Shift the ship
+   * @param rows offset of rows
+   * @param cols offset of cols
+   */
+  public void shiftShip(int rows, int cols){
+    HashMap<Coordinate, Boolean> pieces = new HashMap<Coordinate, Boolean>();
+    for (Coordinate key : myPieces.keySet()) {
+      Coordinate newCoordination = new Coordinate(key.getRow() + rows, key.getColumn() + cols);
+      pieces.put(newCoordination, myPieces.get(key));
+    }
+    this.myPieces = pieces;
+  }
   /**
    * Constructs a basic ship with iterable Coordinate c
    * 
@@ -53,7 +106,7 @@ public abstract class BasicShip<T> implements Ship<T> {
   /**
    * Record the hit if the coordinate is vaild
    * 
-   * @param Coordinate where
+   * @param where Coordinate
    */
   @Override
   public void recordHitAt(Coordinate where) {

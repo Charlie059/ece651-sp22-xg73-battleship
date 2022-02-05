@@ -26,9 +26,9 @@ public class V1ShipFactory implements AbstractShipFactory<Character> {
     Character orientation = where.getOrientation();
     RectangleShip<Character> ship;
     if (orientation == 'V') {
-      ship = new RectangleShip<Character>(name, where.getCoordinate(), w, h, letter, '*');
+      ship = new RectangleShip<Character>(name, where, w, h, letter, '*');
     } else {
-      ship = new RectangleShip<Character>(name, where.getCoordinate(), h, w, letter, '*');
+      ship = new RectangleShip<Character>(name, where, h, w, letter, '*');
     }
     return ship;
   }

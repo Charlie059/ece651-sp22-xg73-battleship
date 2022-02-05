@@ -15,8 +15,10 @@ public class InBoundsRuleChecker<T> extends PlacementRuleChecker<T> {
    * @param The board object with type T
    * @return A String indicate the probelms or return null which is no error
    */
+
   @Override
-  protected String checkMyRule(Ship<T> theShip, Board<T> theBoard) {
+  protected String checkMyRule(Ship<T> theShip, Board<T> theBoard, Iterable<Coordinate> coordinates) {
+    if(theShip == null)  return "That placement is invalid.";
     for (Coordinate c : theShip.getCoordinates()) {
       if (0 > c.getRow()) {
         return "That placement is invalid: the ship goes off the top of the board.";

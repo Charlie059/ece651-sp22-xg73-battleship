@@ -39,7 +39,7 @@ public class App {
     do {
       // p1 turn
       BoardTextView p1View = this.p1.view;
-      this.p1.playOneTurn(p2.theBoard, p1View, "A");
+      this.p1.oneTurn(p2.theBoard, p1View, "A");
 
       // Check Lose
       if(this.p2.theBoard.checkLose() == true){
@@ -49,11 +49,11 @@ public class App {
       }
       // p2 turn
       BoardTextView p2View = this.p2.view;
-      this.p2.playOneTurn(p1.theBoard, p2View, "B");
+      this.p2.oneTurn(p1.theBoard, p2View, "B");
 
       // Check Lose
       if(this.p1.theBoard.checkLose() == true){
-        System.out.println("Player " + p1.name + " win! Game Over!");
+        System.out.println("Player " + p2.name + " win! Game Over!");
         gameOver = true;
         return;
       }
@@ -62,13 +62,71 @@ public class App {
 
   }
 
+  /**
+   * Read User chocie
+   * @param inputReader
+   * @return
+   */
+  private static String getUserChoice(BufferedReader inputReader) {
+
+
+    String input = null;
+    boolean userReEnter = false;
+    do {
+      try {
+        input = inputReader.readLine();
+        input = input.toUpperCase();
+
+        if( input.equals("A") || input.equals("B") || input.equals("C") || input.equals("D")){
+          userReEnter = false;
+        }
+        else {
+          userReEnter = true;
+          System.out.println("Invalid Choice, please enter again!");
+        }
+      }catch (IOException e) {
+        System.out.println("Invalid Choice, please enter again!");
+        userReEnter = true;
+      }
+    }
+    while (userReEnter == true);
+    return input;
+  }
+
   public static void main(String[] args) throws IOException {
     Board<Character> b1 = new BattleShipBoard<Character>(10, 20, 'X');
     Board<Character> b2 = new BattleShipBoard<Character>(10, 20, 'X');
+
+    String prompt = "Please select game mode:\n"+
+            "A: human vs human\n" +
+            "B: human vs computer\n" +
+            "C: computer vs human\n" +
+            "D: computer vs computer\n" ;
+
+    System.out.println(prompt);
     BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-    V1ShipFactory factory = new V1ShipFactory();
-    TextPlayer p1 = new TextPlayer("A", b1, input, System.out, factory);
-    TextPlayer p2 = new TextPlayer("B", b2, input, System.out, factory);
+    V2ShipFactory factory = new V2ShipFactory();
+    String ans = getUserChoice(input); // get user input
+
+    TextPlayer p1 = null;
+    TextPlayer p2 = null;
+    if(ans.equals("A")){
+      p1 = new TextPlayer("A", b1, input, System.out, factory,false);
+      p2 = new TextPlayer("B", b2, input, System.out, factory,false);
+    }
+    else if(ans.equals("B")){
+      p1 = new TextPlayer("A", b1, input, System.out, factory,false);
+      p2 = new TextPlayer("B", b2, input, System.out, factory,true);
+    }
+    else if(ans.equals("C")){
+      p1 = new TextPlayer("A", b1, input, System.out, factory,true);
+      p2 = new TextPlayer("B", b2, input, System.out, factory,false);
+    }
+    else if(ans.equals("D")){
+      p1 = new TextPlayer("A", b1, input, System.out, factory,true);
+      p2 = new TextPlayer("B", b2, input, System.out, factory,true);
+    }
+
     App a = new App(p1, p2);
     a.doPlacementPhase();
     a.doAttackingPhase();
