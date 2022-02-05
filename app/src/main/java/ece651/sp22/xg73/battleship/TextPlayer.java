@@ -121,7 +121,7 @@ public class TextPlayer {
 
     // Display the enemy board
     BoardTextView enemyView = new BoardTextView(enemyBoard);
-    this.out.println(view.displayMyBoardWithEnemyNextToIt(enemyView,"Your ocean", "Player B's ocean"));
+    this.out.println(view.displayMyBoardWithEnemyNextToIt(enemyView,"Your ocean", "Opponent's ocean"));
 
     Coordinate sonarCoordinate = reReadPlacement(attackPrompt, true).getCoordinate();
     int row_offset = sonarCoordinate.getRow();
@@ -193,7 +193,7 @@ public class TextPlayer {
 
     // Display the enemy board
     BoardTextView enemyView = new BoardTextView(enemyBoard);
-    if(this.isComputer == false) this.out.println(view.displayMyBoardWithEnemyNextToIt(enemyView,"Your ocean", "Player B's ocean"));
+    if(this.isComputer == false) this.out.println(view.displayMyBoardWithEnemyNextToIt(enemyView,"Your ocean", "Opponent's ocean"));
 
     Coordinate attackCoordinate = null;
     if(this.isComputer == false) attackCoordinate = reReadPlacement(attackPrompt, true).getCoordinate();
@@ -225,7 +225,7 @@ public class TextPlayer {
   public void playOneTurnMove(Board<Character> enemyBoard, BoardTextView view, String playerName){ //TODO display problem of hit
     // Display the enemy board
     BoardTextView enemyView = new BoardTextView(enemyBoard);
-    this.out.println(view.displayMyBoardWithEnemyNextToIt(enemyView,"Your ocean", "Player B's ocean"));
+    this.out.println(view.displayMyBoardWithEnemyNextToIt(enemyView,"Your ocean", "Opponent's ocean"));
 
     String prompt_from = "Player " + playerName + " select a coordinate of ship to move!";
 
@@ -240,7 +240,7 @@ public class TextPlayer {
       out.println(result);
       playOneTurnMove(enemyBoard, view, playerName);
     }
-    this.out.println(view.displayMyBoardWithEnemyNextToIt(enemyView,"Your ocean", "Player B's ocean"));
+    this.out.println(view.displayMyBoardWithEnemyNextToIt(enemyView,"Your ocean", "Opponent's ocean"));
   }
 
 
@@ -259,9 +259,9 @@ public class TextPlayer {
    */
   protected void setupShipCreationList() {
     shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
-    shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
-    shipsToPlace.addAll(Collections.nCopies(3, "BattleShip"));
-    shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
+//    shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
+//    shipsToPlace.addAll(Collections.nCopies(3, "BattleShip"));
+//    shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
   }
 
   /**

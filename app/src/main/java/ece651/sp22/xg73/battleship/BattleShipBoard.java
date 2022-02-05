@@ -1,6 +1,7 @@
 package ece651.sp22.xg73.battleship;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -17,7 +18,8 @@ public class BattleShipBoard<T> implements Board<T> {
   private final PlacementRuleChecker<T> placementChecker;
   private HashSet<Coordinate> enemyMisses;
   private final T missInfo;
-
+  private HashMap<Coordinate, T> enemyViewOfHitShip;
+  private HashMap<Coordinate, T> enemyViewOfHitShipAfterMove;
   /**
    * Constructs a BattleShipBoard with the specified width and height
    * 
@@ -35,10 +37,12 @@ public class BattleShipBoard<T> implements Board<T> {
     }
     this.width = width;
     this.height = height;
-    this.myShips = new ArrayList<Ship<T>>();
-    this.placementChecker = new InBoundsRuleChecker<T>(new NoCollisionRuleChecker<T>(null));
+    this.myShips = new ArrayList<>();
+    this.placementChecker = new InBoundsRuleChecker<>(new NoCollisionRuleChecker<>(null));
     this.enemyMisses = new HashSet<Coordinate>();
     this.missInfo = missInfo;
+    this.enemyViewOfHitShip = new HashMap<Coordinate, T>();
+    this.enemyViewOfHitShipAfterMove = new HashMap<Coordinate, T>();
   }
 
   /**
@@ -94,11 +98,31 @@ public class BattleShipBoard<T> implements Board<T> {
     return null;
   }
 
+
+  /**
+   * Record the hit info if we need to move teh ship
+   * @param shipToBeMv
+   */
+  private void recordMoveShipHitInfo(Ship<T> shipToBeMv, HashMap<Coordinate, T> enemyViewOfHitShip, boolean before){
+     Iterable<Coordinate> shipCoors = shipToBeMv.getCoordinates();
+     for(Coordinate c: shipCoors){
+       if(whatIsAtForEnemy(c) != null){
+         enemyViewOfHitShip.put(c,whatIsAtForEnemy(c));
+       }
+       if(before == false){
+         enemyViewOfHitShip.put(c,whatIsAtForEnemy(c));
+       }
+     }
+  }
+
+
   @Override
   public String tryMoveShip(Coordinate from, Coordinate to, char DestOrientation) {
     Ship<T> shipToBeMv = whichShip(from);
     if(shipToBeMv == null) return "Invalid location: it seems like no ship in that position! Please try again!";
-    // No need to valid Coordinate to because we have checker
+
+    // Record the enemyView of this ship hit coordinates and ship type
+    recordMoveShipHitInfo(shipToBeMv, this.enemyViewOfHitShip, true);
 
     Iterable<Coordinate> originCoordinate = shipToBeMv.getCoordinates();
     Ship<T> dummyShip = null;
@@ -114,8 +138,15 @@ public class BattleShipBoard<T> implements Board<T> {
     String result = this.placementChecker.checkPlacement(dummyShip, this, originCoordinate);
     if(result != null) return result;
 
+
+
+
     // Move the real ship
     moveShip(to, DestOrientation, shipToBeMv);
+
+    // Record the before move coordinates and view
+    recordMoveShipHitInfo(shipToBeMv,this.enemyViewOfHitShipAfterMove, false);
+
     return null;
   }
 
@@ -275,16 +306,33 @@ public class BattleShipBoard<T> implements Board<T> {
    *         coordinates. If none is found, we return null.
    */
   protected T whatIsAt(Coordinate where, boolean isSelf){
-    for (Ship<T> s : myShips) {
-      if (s.occupiesCoordinates(where)) {
-        return s.getDisplayInfoAt(where, isSelf);
+
+    if(isSelf == true){
+      for (Ship<T> s : myShips) {
+        if (s.occupiesCoordinates(where)) {
+          return s.getDisplayInfoAt(where, isSelf);
+        }
       }
     }
-    // if not self
-    if(isSelf == false){
-        if(enemyMisses.contains(where)){
-          return missInfo;
-        }
+     else if(isSelf == false){
+       for (Ship<T> s : myShips) {
+         if(enemyMisses.contains(where)){
+           return missInfo;
+         }
+         if(enemyViewOfHitShip.containsKey(where)){
+           return enemyViewOfHitShip.get(where);
+         }
+         if(enemyViewOfHitShipAfterMove.containsKey(where)){
+           return null;
+         }
+         if (s.occupiesCoordinates(where)) {
+           return s.getDisplayInfoAt(where, false);
+         }
+       }
+
+
+
+
     }
     return null;
   }
