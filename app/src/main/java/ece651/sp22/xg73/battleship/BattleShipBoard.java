@@ -329,10 +329,7 @@ public class BattleShipBoard<T> implements Board<T> {
            return s.getDisplayInfoAt(where, false);
          }
        }
-
-
-
-
+       
     }
     return null;
   }

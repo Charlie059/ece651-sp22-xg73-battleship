@@ -259,9 +259,9 @@ public class TextPlayer {
    */
   protected void setupShipCreationList() {
     shipsToPlace.addAll(Collections.nCopies(2, "Submarine"));
-//    shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
-//    shipsToPlace.addAll(Collections.nCopies(3, "BattleShip"));
-//    shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
+    shipsToPlace.addAll(Collections.nCopies(2, "Carrier"));
+    shipsToPlace.addAll(Collections.nCopies(3, "BattleShip"));
+    shipsToPlace.addAll(Collections.nCopies(3, "Destroyer"));
   }
 
   /**
