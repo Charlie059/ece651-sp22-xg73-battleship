@@ -3,6 +3,7 @@ package ece651.sp22.xg73.battleship;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.checkerframework.checker.units.qual.C;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class BoardTextViewTest {
@@ -41,6 +42,7 @@ public class BoardTextViewTest {
     assertEquals(expected, view.displayMyOwnBoard());
   }
 
+ 
   @Test
   public void test_display_empty_3by5() {
     Board<Character> b1 = new BattleShipBoard<Character>(3, 5, 'X');
@@ -62,6 +64,7 @@ public class BoardTextViewTest {
 
   }
 
+  @Disabled
   @Test
   public void test_display_add_ships_3by5() {
     Board<Character> b1 = new BattleShipBoard<Character>(3, 5, 'X');

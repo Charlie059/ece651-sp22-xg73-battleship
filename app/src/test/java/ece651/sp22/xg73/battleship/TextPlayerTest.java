@@ -23,7 +23,7 @@ public class TextPlayerTest {
     V1ShipFactory shipFactory = new V1ShipFactory();
     return new TextPlayer("A", board, input, output, shipFactory,false);
   }
-
+  @Disabled
   @Test
   void test_read_placement_null() throws IOException {
     String prompt = "Please enter a location for a ship:";
@@ -32,7 +32,7 @@ public class TextPlayerTest {
     V1ShipFactory sf = new V1ShipFactory();
     assertThrows(IOException.class, () -> player.doOnePlacement("Submarine", (p) -> sf.makeSubmarine(p)));
   }
-
+  @Disabled
   @Test
   void test_read_placement_invalid_placement() throws IOException {
     String prompt = "Please enter a location for a ship:";
@@ -75,6 +75,7 @@ public class TextPlayerTest {
     player.doOnePlacement("Submarine", (p) -> sf.makeSubmarine(p));
   }
 
+  @Disabled
   @Test
   void test_do_placement_phase() throws IOException {
     StringReader sr = new StringReader("A1h\nA5h\nB1h\nB5h\nC1h\nC5h\nD1h\nD5h\nE1h\nE5h\n");
